@@ -14,3 +14,5 @@ Theo tiêu chuẩn của apache
 
 ### compression
 khi vận chuyển quá nhiều tốn băng thông của chúng ra
+
+## Section 2 Connect MongoDB to Node.js Using Mongoose và 7 điều cần triển khai trong hệ thống.

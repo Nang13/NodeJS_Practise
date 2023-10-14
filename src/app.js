@@ -12,7 +12,7 @@ app.use(helmet())
 app.use(compression())
 
 //* init database 
-
+require('./dbs/init.mongodb.lv0')
 
 //* init routes 
 app.get('/', (req, res, next) => {
