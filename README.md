@@ -16,3 +16,9 @@ Theo tiêu chuẩn của apache
 khi vận chuyển quá nhiều tốn băng thông của chúng ra
 
 ## Section 2 Connect MongoDB to Node.js Using Mongoose và 7 điều cần triển khai trong hệ thống.
+### Phân biệt util và helper
+#### Util
++ Là viết những function 
+Ví dụ : chuyển ký tự hoa sang ký tự thường
+
+#### Help

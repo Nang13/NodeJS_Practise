@@ -12,11 +12,14 @@ app.use(helmet())
 app.use(compression())
 
 //* init database 
-require('./dbs/init.mongodb.lv0')
+require('./dbs/init.mongodb')
 
+//* Check Overload
+const {checkOverload } = require('./helpers/check.connect')
+checkOverload()   
 //* init routes 
 app.get('/', (req, res, next) => {
-   
+
     return res.status(200).json({
         message: 'Welcome JS',
      
