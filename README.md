@@ -22,3 +22,16 @@ khi vận chuyển quá nhiều tốn băng thông của chúng ra
 Ví dụ : chuyển ký tự hoa sang ký tự thường
 
 #### Help
+
+
+## Section 4 .evn and config
+
+- Chuyển đổi môi trường không cần chỉnh sửa mã code 
+### .env
+- Dùng để lưu trữ những thông tin nhạy cảm 
+- Tách biệt thông tin nhạy cảm , bảo trì trơn tru, 
+
+### config 
+- lưu trữ cài đặt và cấu hình cho chúng ta 
+- config dùng để kiểm soát code và phiên bản 
+

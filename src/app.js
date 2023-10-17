@@ -1,10 +1,13 @@
+require('dotenv').config()
+
 const compression = require('compression');
 const express = require('express');
 const { default: helmet } = require('helmet');
 const morgan = require('morgan');
 const app = express();
 
-
+ 
+console.log(`process ::`, process.env);
 
 //* init middleware
 app.use(morgan("dev"))
