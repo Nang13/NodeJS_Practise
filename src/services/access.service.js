@@ -2,9 +2,10 @@
 
 const shopModels = require("../models/shop.models")
 const bcrypt = require('bcrypt')
-const crypto = require('crypto')
+const crypto = require('node:crypto')
 const KeyTokenService = require("./keyToken.service")
 const { createTokenPair } = require("../auth/authUtils")
+const { getIntoData } = require("../utils")
 const roleShop = {
     SHOP: 'SHOP',
     WRITER: 'WRITER',
@@ -42,31 +43,44 @@ class AccessService {
                  *context : khi hacker xâm nhập vào hệ thống của chúng ta nó chỉ lấy được public key, nhưng không thể sai token, mà nó chỉ có verify token 
                  * phải biết được cả 2 hai nên xác suất khá là hiếm 
                  */
-                const { privateKey, publicKey } = crypto.generateKeyPairSync('rsa', {
-                    modulusLength: 4096
-                })
+                // const { privateKey, publicKey } = crypto.generateKeyPairSync('rsa', {
+                //     modulusLength: 4096,
+                //     publicKeyEncoding : {
+                //         type : 'pkcs1',
+                //         format : 'pem'
+                //     },
+                //     privateKeyEncoding :{
+                //         type : 'pkcs1',
+                //         format : 'pem'
+                //     }
+                // })
+
+                const privateKey = crypto.randomBytes(64).toString('hex');
+                const publicKey = crypto.randomBytes(64).toString('hex');
 
                 console.log({ privateKey, publicKey }) //* Save to collection KeyStore 
-                const publicKeyString = await KeyTokenService.createKeyToken({
+                const KeyStore = await KeyTokenService.createKeyToken({
                     userId: newShop._id,
-                    publicKey
+                    publicKey,
+                    privateKey
                 })
 
 
-                if (!publicKeyString) {
+                if (!KeyStore) {
                     return {
                         code: 'xxx',
                         message: 'publicKeyString token'
                     }
                 }
 
+                //const publicKeyObject = crypto.createPublicKey(publicKeyString)
                 //? Created token pair 
-                const tokens = await createTokenPair({ userId: newShop._id, email }, publicKey, privateKey)
+                const tokens = await createTokenPair({ userId: newShop._id, email },  publicKey, privateKey)
                 console.log(`Create Token Success :: `, tokens);
                 return{
                     code : 201 ,
                     metadata : {
-                        shop : newShop,
+                        shop : getIntoData({fields :['_id' , 'name','email'],object:newShop}),
                         tokens
                     }
                 }

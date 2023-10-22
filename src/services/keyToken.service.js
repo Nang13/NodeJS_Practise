@@ -9,15 +9,16 @@ class KeyTokenService{
      * chuyển về to string để không bị lỗi 
      *  
      */
-    static createKeyToken = async ({ userId ,publicKey }) => {
+    static createKeyToken = async ({ userId ,publicKey, privateKey }) => {
         try {
-            const  publicKeyString = publicKey.toString();
+          //  const  publicKeyString = publicKey.toString();
             const tokens  = await keyTokenModel.create({
                 user :  userId,
-                publicKey : publicKeyString
+                publicKey : publicKey,
+                privateKey : privateKey
             })
 
-            return tokens ? publicKeyString : null
+            return tokens ? tokens.publicKey : null
         } catch (error) {
             
         }
