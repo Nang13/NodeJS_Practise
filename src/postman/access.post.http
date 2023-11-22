@@ -2,7 +2,7 @@
 ## sign up
 POST {{url_dev}}/shops/signup
 Content-Type: application/json
-x-api-key : ec053508ec0601c5038ca373d40724ba10314c53e0a2e8a7a80f76e5f6f25588ca9b12652b8f78375b9c1908bae4168c861c88eee5d8a206e2bac9fcac611102
+x-api-key : c00af8b2095b60d63216f2e8ffae1f2f9742ef95c931202667c6d4ff0eac41229c3d7b61211a4b00f8767f250936ba8613866cbd3cfc21e3bd3b0c84ba5bc01c
 
 {
     "name" : "Shop TIPJS",

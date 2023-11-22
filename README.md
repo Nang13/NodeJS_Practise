@@ -35,3 +35,5 @@ Ví dụ : chuyển ký tự hoa sang ký tự thường
 - lưu trữ cài đặt và cấu hình cho chúng ta 
 - config dùng để kiểm soát code và phiên bản 
 
+### [Section 7]
+Việc handle code lỗi trong chương trình phải báo trực tiếp phải có một chốt chặn ở phía middle 

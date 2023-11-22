@@ -6,16 +6,13 @@ const crypto = require('node:crypto')
 const KeyTokenService = require("./keyToken.service")
 const { createTokenPair } = require("../auth/authUtils")
 const { getIntoData } = require("../utils")
+const { BadRequestError } = require("../core/error.response")
 const roleShop = {
     SHOP: 'SHOP',
     WRITER: 'WRITER',
     EDITOR: 'EDITOR',
     ADMIN: 'ADMIN'
 }
-
-
-
-
 
 class AccessService {
 
@@ -27,10 +24,7 @@ class AccessService {
             const holderShop = await shopModels.findOne({ email }).lean()
 
             if (holderShop) {
-                return {
-                    code: 'xxx',
-                    message: 'Shop already registered !'
-                }
+                throw new BadRequestError('Error: Shop already registered')
             }
             const passwordHash = await bcrypt.hash(password, 10)
             const newShop = await shopModels.create({ name, email, password: passwordHash, roles: [roleShop.SHOP] })
@@ -75,12 +69,12 @@ class AccessService {
 
                 //const publicKeyObject = crypto.createPublicKey(publicKeyString)
                 //? Created token pair 
-                const tokens = await createTokenPair({ userId: newShop._id, email },  publicKey, privateKey)
+                const tokens = await createTokenPair({ userId: newShop._id, email }, publicKey, privateKey)
                 console.log(`Create Token Success :: `, tokens);
-                return{
-                    code : 201 ,
-                    metadata : {
-                        shop : getIntoData({fields :['_id' , 'name','email'],object:newShop}),
+                return {
+                    code: 201,
+                    metadata: {
+                        shop: getIntoData({ fields: ['_id', 'name', 'email'], object: newShop }),
                         tokens
                     }
                 }
