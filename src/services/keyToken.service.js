@@ -1,5 +1,5 @@
 'use  strict'
-const { Types } = require("mongoose");
+const { Types: { ObjectId } } = require('mongoose')
 //? Create new token 
 
 const keyTokenModel = require("../../src/models/keytoken.model");
@@ -10,8 +10,9 @@ class KeyTokenService {
      * chuyển về to string để không bị lỗi 
      *  
      */
-    static createKeyToken = async ({ userId, publicKey, privateKey }) => {
-        try {
+    static createKeyToken = async ({ userId, publicKey, privateKey, refreshToken }) => {
+        try {   
+     
             //  const  publicKeyString = publicKey.toString();
             //? Level 0
             // const tokens  = await keyTokenModel.create({
@@ -26,7 +27,7 @@ class KeyTokenService {
             const filter = { user: userId }, update = {
                 publicKey,
                 privateKey,
-                refreshTokenUsed: [],
+                refreshTokensUsed: [],   
                 refreshToken
             }, options = { upsert: true, new: true }
             const tokens = await keyTokenModel.findOneAndUpdate(filter, update, options)
@@ -35,9 +36,21 @@ class KeyTokenService {
             return error
         }
     }
+
+
+
     static findByUserId = async (userId) => {
-        return await keyTokenModel.findOne({ user: Types.ObjectId(userId) }).lean()
+        console.log(userId)
+        return await keyTokenModel.findOne({ user: new  ObjectId(userId) }).lean();
     }
+
+    static removeKeyId = async ( id ) => {
+        const result = await  keyTokenModel.deleteOne({ _id:  new ObjectId(id) })
+        return result;
+    }
+
+
+
 }
 
 module.exports = KeyTokenService

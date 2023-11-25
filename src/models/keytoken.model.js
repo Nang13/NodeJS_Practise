@@ -2,7 +2,7 @@
 
 const { Schema, model } = require('mongoose'); // Erase if already required
 const DOCUMENT_NAME = 'Key';
-const  COLLECTION_NAME = 'Keys'
+const COLLECTION_NAME = 'Keys'
 // Declare the Schema of the Mongo model
 var keyTokenSchema = new Schema({
     user: {
@@ -13,9 +13,9 @@ var keyTokenSchema = new Schema({
     publicKey: {
         type: String,
         required: true,
-    }
+    }   
     ,
-    privateKey : {
+    privateKey: {
         type: String,
         required: true,
     }
@@ -23,10 +23,10 @@ var keyTokenSchema = new Schema({
     refreshTokensUsed: {
         type: Array, default: [] // Những Refresh Token đã sử dụng
     },
-    refreshToken :{ type : String  , required : true }
-},{
-    collection : COLLECTION_NAME,
-    timestamps :  true
+    refreshToken: { type: String, required: true }
+}, {
+    collection: COLLECTION_NAME,
+    timestamps: true
 });
 
 //Export the model

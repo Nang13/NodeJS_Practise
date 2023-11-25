@@ -27,7 +27,7 @@ class OK extends SuccessResponse {
     }
 }
 class CREATED extends SuccessResponse {
-    constructor({ message, statusCode = StatusCode.CREATED, reasonStatusCode = ReasonStatusCode.CREATED, metadata }) {
+    constructor({ message, statusCode = StatusCode.CREATED, reasonStatusCode = ReasonStatusCode.CREATED, metadata, options = {} }) {
         super({ message, statusCode, reasonStatusCode, metadata })
         this.options = options
     }
@@ -35,5 +35,5 @@ class CREATED extends SuccessResponse {
 
 
 module.exports = {
-    OK, CREATED,SuccessResponse
+    OK, CREATED, SuccessResponse
 }
