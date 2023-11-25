@@ -11,8 +11,8 @@ class KeyTokenService {
      *  
      */
     static createKeyToken = async ({ userId, publicKey, privateKey, refreshToken }) => {
-        try {   
-     
+        try {
+
             //  const  publicKeyString = publicKey.toString();
             //? Level 0
             // const tokens  = await keyTokenModel.create({
@@ -27,7 +27,7 @@ class KeyTokenService {
             const filter = { user: userId }, update = {
                 publicKey,
                 privateKey,
-                refreshTokensUsed: [],   
+                refreshTokensUsed: [],
                 refreshToken
             }, options = { upsert: true, new: true }
             const tokens = await keyTokenModel.findOneAndUpdate(filter, update, options)
@@ -41,14 +41,25 @@ class KeyTokenService {
 
     static findByUserId = async (userId) => {
         console.log(userId)
-        return await keyTokenModel.findOne({ user: new  ObjectId(userId) }).lean();
+        return await keyTokenModel.findOne({ user: new ObjectId(userId) });
     }
 
-    static removeKeyId = async ( id ) => {
-        const result = await  keyTokenModel.deleteOne({ _id:  new ObjectId(id) })
+    static removeKeyId = async (id) => {
+        const result = await keyTokenModel.deleteOne({ _id: new ObjectId(id) })
         return result;
     }
 
+    static findByRefreshTokenUsed = async (refreshToken) => {
+        return await keyTokenModel.findOne({ refreshTokensUsed: refreshToken }).lean();
+    }
+    static findByRefreshToken = async (refreshToken) => {
+        return await keyTokenModel.findOneAndUpdate({ refreshToken  : refreshToken});
+    }
+
+    static removeRefreshToken = async (userId) => {
+        console.log("In Check ", userId)
+        return await keyTokenModel.deleteOne({ user:  new ObjectId(userId) })
+    }
 
 
 }
