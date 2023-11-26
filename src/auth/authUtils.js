@@ -7,7 +7,7 @@ const HEADER = {
     API_KEY: 'x-api-key',
     AUTHORIZATION: 'authorization',
     CLIENT_ID: 'x-client-id',
-    REFRESH_TOKEN:'x-rtoken-id'
+    REFRESH_TOKEN: 'x-rtoken-id'
 }
 const createTokenPair = async (payload, publicKey, privateKey) => {
 
@@ -110,6 +110,7 @@ const authenticationV2 = asyncHandler(async (req, res, next) => {
         const decodeUser = JWT.verify(accessToken, keyStore.publicKey)
         if (userId !== decodeUser.userId) throw new AuthFailureError('Invalid user')
         req.keyStore = keyStore
+        req.user = decodeUser
         return next();
     } catch (error) {
         throw error
@@ -119,7 +120,7 @@ const authenticationV2 = asyncHandler(async (req, res, next) => {
 
 
 const verifyJWT = async (token, keySecret) => {
-    return  await JWT.verify(token, keySecret)
+    return await JWT.verify(token, keySecret)
 }
 
 
