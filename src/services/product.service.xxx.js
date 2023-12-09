@@ -2,7 +2,12 @@
 
 const { product, clothings, electronics, furnitures } = require('../models/product.model')
 const { BadRequestError } = require('../core/error.response')
-
+const { findAllDraftForShop,
+    findAllPublishedForShop,
+    publishProductByShop,
+    unPublishProductByShop,
+    searchProduct
+} = require('../models/repository/product.repo')
 //? Define the Factory Class  to create product 
 class ProductFactory {
     /**
@@ -32,7 +37,32 @@ class ProductFactory {
     //     }
     // }
 
+    static async findAllDraftForShop({ product_shop, limit = 50, skip = 0 }) {
+        const query = { product_shop, isDraft: true }
+        return await findAllDraftForShop({ query, limit, skip })
+    }
+    static async findAllPublishForShop({ product_shop, limit = 50, skip = 0 }) {
+        const query = { product_shop, isPublished: true }
+        return await findAllPublishedForShop({ query, limit, skip })
+    }
+
+    //? Put
+    static async publishProductByShop({ product_shop, product_id }) {
+        return await publishProductByShop({ product_shop, product_id })
+    }
+
+    static async unPublishProductByShop({ product_shop, product_id }) {
+        return await unPublishProductByShop({ product_shop, product_id })
+    }
+
+    static async searchProduct({ keySearch }) {
+
+        return await searchProduct({ keySearch })
+
+    }
 }
+
+
 /**
  *    product_name: { type: String, required: true },
     product_thumb: { type: String, required: true },
@@ -109,7 +139,7 @@ class Furnitures extends Product {
 }
 
 
-ProductFactory.registerProductTye('Electronics', Electronics)
-ProductFactory.registerProductTye('Clothings', Clothing)
-ProductFactory.registerProductTye('Furnitures', Furnitures)
+ProductFactory.registerProductTye('Electronic', Electronics)
+ProductFactory.registerProductTye('Clothing', Clothing)
+ProductFactory.registerProductTye('Furniture', Furnitures)
 module.exports = ProductFactory;

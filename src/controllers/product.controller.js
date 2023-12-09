@@ -7,16 +7,6 @@ class ProductController {
 
 
     createProduct = async (req, res, next) => {
-        console.log(req.user)
-        // new SuccessResponse({
-        //     message: 'Create new Product success',
-        //     metadata: await ProductService.createProduct(req.body.product_type, {
-        //         ...req.body,
-        //         product_shop: req.user.userId
-        //     })
-        // }).send(res)
-    
-    
         new SuccessResponse({
             message: 'Create new Product success',
             metadata: await ProductServiceV2.createProduct(req.body.product_type, {
@@ -26,7 +16,57 @@ class ProductController {
         }).send(res)
     }
 
-}
+    searchProduct = async (req, res, next) => {
+        new SuccessResponse({
+            message: 'Search Product success',
+            metadata: await ProductServiceV2.searchProduct(req.params)
+        }).send(res)
+    }
 
+
+    publishProduct = async (req, res, next) => {
+        new SuccessResponse({
+            message: 'Publish Product  successfully',
+            metadata: await ProductServiceV2.publishProductByShop({
+                product_id: req.params.id,
+                product_shop: req.user.userId
+            })
+        }).send(res)
+    }
+
+    unPublishProduct = async (req, res, next) => {
+        new SuccessResponse({
+            message: 'Publish Product  successfully',
+            metadata: await ProductServiceV2.unPublishProductByShop({
+                product_id: req.params.id,
+                product_shop: req.user.userId
+            })
+        }).send(res)
+    }
+    /**
+     * 
+     * @param {string} lim 
+     * @param {Number} skip 
+     * @param {*} next 
+     */
+    getAllDraftShop = async (req, res, next) => {
+        new SuccessResponse({
+            message: 'Get list success',
+            metadata: await ProductServiceV2.findAllDraftForShop({
+                product_shop: req.user.userId
+            })
+        }).send(res)
+    }
+
+
+    getAllPublishShop = async (req, res, next) => {
+        new SuccessResponse({
+            message: 'Get list success',
+            metadata: await ProductServiceV2.findAllPublishForShop({
+                product_shop: req.user.userId
+            })
+        }).send(res)
+    }
+}
 
 module.exports = new ProductController();
