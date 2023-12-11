@@ -9,8 +9,10 @@ const {
     unPublishProductByShop,
     searchProduct,
     findAllProduct,
-    findProduct
+    findProduct,
+    updateProductById
 } = require('../models/repository/product.repo')
+const { removeUndefinedObject, updateNestedObjectParser } = require('../utils')
 //? Define the Factory Class  to create product 
 class ProductFactory {
     /**
@@ -29,11 +31,11 @@ class ProductFactory {
 
         return new productClass(payload).createProduct()
     }
-    static async updateProduct(type, payload) {
+    static async updateProduct(type, productId, payload) {
         const productClass = ProductFactory.productRegistry[type];
         if (!productClass) throw new BadRequestError(`Invalid Product Type ${type}`)
 
-        return new productClass(payload).createProduct()
+        return new productClass(payload).updateProduct(productId)
     }
     // static async createProduct(type, payload) {
     //     console.log(payload)
@@ -74,7 +76,7 @@ class ProductFactory {
     }
     static async findProduct({ product_id }) {
 
-        return await findProduct({ product_id, unSelect: ['__v','product_variations'] })
+        return await findProduct({ product_id, unSelect: ['__v', 'product_variations'] })
     }
 }
 
@@ -106,6 +108,10 @@ class Product {
     async createProduct(product_id) {
         return await product.create({ ...this, _id: product_id })
     }
+
+    async updateProduct(productId, bodyUpdate) {
+        return await updateProductById({ productId, bodyUpdate, model: product })
+    }
 }
 
 //? Define sub-class for different product types Clothing 
@@ -118,8 +124,31 @@ class Clothing extends Product {
         if (!newProduct) throw new BadRequestError('Create new Clothing error')
 
 
+
         return newProduct
+
     }
+    async updateProduct(productId) {
+
+        //? không lấy giá trị null hoặc undefined
+        //* 1. remove attr has null or undefined
+       // const objectParams = removeUndefinedObject(this)
+        const objectParams = removeUndefinedObject(this)
+        //* 2. check xem update o cho nao ? 
+        console.log(`Check product`,objectParams.product_attributes)
+        if (objectParams.product_attributes) {
+            //* Update Child
+            await updateProductById({
+                productId,
+                bodyUpdate : updateNestedObjectParser(objectParams.product_attributes),
+                model: clothings
+            })
+        }
+        const updateProduct = await super.updateProduct(productId, updateNestedObjectParser(objectParams))
+        return updateProduct
+
+    }
+
 }
 //? Define sub-class for different product types Clothing 
 class Electronics extends Product {

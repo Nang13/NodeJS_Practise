@@ -40,3 +40,12 @@ Việc handle code lỗi trong chương trình phải báo trực tiếp phải 
 
 
 Nguyên tắc trong lập trình khi hàm được sử dụng 2 lần thì hãy  viết util
+
+### [Section 18] PUT VS PATCH
+#### Put
++ dùng để tạo tài nguyên hay một sản phẩm mới 
+
+#### Patch 
++ dùng chỉ để cập nhật những thuộc tính muốn cập nhật
+
+#### 
