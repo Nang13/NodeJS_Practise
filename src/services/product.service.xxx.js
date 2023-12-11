@@ -13,6 +13,7 @@ const {
     updateProductById
 } = require('../models/repository/product.repo')
 const { removeUndefinedObject, updateNestedObjectParser } = require('../utils')
+const { insertInventory } = require('../models/repository/inventory.repo')
 //? Define the Factory Class  to create product 
 class ProductFactory {
     /**
@@ -106,7 +107,16 @@ class Product {
     }
 
     async createProduct(product_id) {
-        return await product.create({ ...this, _id: product_id })
+        const newProduct = await product.create({ ...this, _id: product_id })
+        if (newProduct) {
+            //? add product_stock in inventory collection
+            await insertInventory({
+                productId: newProduct._id,
+                shopId: this.product_shop,
+                stock: this.product_quantity
+            })
+        }
+        return newProduct;
     }
 
     async updateProduct(productId, bodyUpdate) {
@@ -132,15 +142,15 @@ class Clothing extends Product {
 
         //? không lấy giá trị null hoặc undefined
         //* 1. remove attr has null or undefined
-       // const objectParams = removeUndefinedObject(this)
+        // const objectParams = removeUndefinedObject(this)
         const objectParams = removeUndefinedObject(this)
         //* 2. check xem update o cho nao ? 
-        console.log(`Check product`,objectParams.product_attributes)
+        console.log(`Check product`, objectParams.product_attributes)
         if (objectParams.product_attributes) {
             //* Update Child
             await updateProductById({
                 productId,
-                bodyUpdate : updateNestedObjectParser(objectParams.product_attributes),
+                bodyUpdate: updateNestedObjectParser(objectParams.product_attributes),
                 model: clothings
             })
         }

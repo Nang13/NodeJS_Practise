@@ -48,4 +48,9 @@ Nguyên tắc trong lập trình khi hàm được sử dụng 2 lần thì hãy
 #### Patch 
 + dùng chỉ để cập nhật những thuộc tính muốn cập nhật
 
-#### 
+#### Inventories Model and Service
+Thường tách biệt và phục vụ những mục đích khác nhau 
+##### Collection Product 
++ để duyệt mua , hiển thị trên websitee
+##### Collection Inventories
++ quản lý tồn kho khi  
