@@ -1,7 +1,7 @@
 'use strict'
 
 const _ = require("lodash");
-
+const { Types } = require('mongoose')
 const getIntoData = ({ fields: fields = [], object = {} }) => {
 
     return _.pick(object, fields)
@@ -41,11 +41,15 @@ const updateNestedObjectParser = obj => {
     console.log(`2:`, obj)
     return final
 }
+
+const convertToTypes = obj => Types.ObjectId(id)
+
 module.exports = {
     getIntoData,
     getSelectData,
     unGetSelectData,
     removeUndefinedObject,
-    updateNestedObjectParser
+    updateNestedObjectParser,
+    convertToTypes
 
 }
