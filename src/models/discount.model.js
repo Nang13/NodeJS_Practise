@@ -30,6 +30,5 @@ var DiscountSchema = new Schema({
 });
 
 //Export the model
-module.exports = {
-    discount: model(DOCUMENT_NAME, DiscountSchema)
-};
+module.exports =
+    model(DOCUMENT_NAME, DiscountSchema);
