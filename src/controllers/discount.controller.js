@@ -44,6 +44,15 @@ class DiscountController {
             })
         }).send(res)
     }
+
+    updateDiscount = async (req, res, next) => {
+        new SuccessResponse({
+            message: 'Update Discount Successfully',
+            metadata: await DiscountService.updateDiscount(req.user.userId, req.params.discountId, {
+                ...req.body
+            })
+        }).send(res)
+    }
 }
 
 

@@ -1,5 +1,6 @@
 'use strict'
 
+const { model } = require('mongoose');
 const { unGetSelectData, getSelectData } = require('../../utils/index')
 const findAllDiscountCodeUnSelect = async ({ limit = 50, page = 1, sort = 'ctime', filter, unSelect, model }) => {
     const skip = (page - 1) * limit;
@@ -32,8 +33,15 @@ const checkDiscountExist = async ({ model, filter }) => {
     return await model.findOne(filter).lean()
 
 }
+
+const updateDiscount = async ({ discountId, bodyUpdate, model, isNew = true }) => {
+    return await model.findByIdAndUpdate(discountId, bodyUpdate, {
+        new: isNew
+    })
+}
 module.exports = {
     findAllDiscountCodeUnSelect,
     findAllDiscountCodeSelect,
-    checkDiscountExist
+    checkDiscountExist,
+    updateDiscount
 }

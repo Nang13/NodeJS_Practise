@@ -13,6 +13,7 @@ router.get('/list_product_code', asyncHandler(discountController.getAllDiscountW
 router.use(authenticationV2)
 
 router.get('', asyncHandler(discountController.getAllDiscountCodes))
+router.patch('/update/:discountId', asyncHandler(discountController.updateDiscount))
 router.post('/create', asyncHandler(discountController.createDiscountCode))
 
 module.exports = router

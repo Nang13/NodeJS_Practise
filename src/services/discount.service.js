@@ -4,7 +4,7 @@ const discount = require('../models/discount.model')
 const { product } = require('../models/product.model')
 const { convertToTypes } = require('../utils')
 const { findAllProduct } = require('../models/repository/product.repo')
-const { findAllDiscountCodeUnSelect, checkDiscountExist } = require('../models/repository/discount.repo')
+const { findAllDiscountCodeUnSelect, checkDiscountExist, updateDiscount } = require('../models/repository/discount.repo')
 /***
  * * Discount Service 
  * TODO : Generator discount code [Shop | Admin]
@@ -85,7 +85,14 @@ class DiscountService {
 
     }
 
-    static async updateDiscount() {
+    static async updateDiscount(shopId, discountId, bodyUpdate) {
+        const checkDiscountInShop = await discount.findOne({
+            _id: convertToTypes(discountId),
+            discount_shopId: convertToTypes(shopId)
+
+        }).lean()
+        if (!checkDiscountInShop) throw new NotFoundError('This shop do  have this discount ');
+        return await updateDiscount({ discountId, bodyUpdate, model: discount })
         //? do by myself
     }
 
