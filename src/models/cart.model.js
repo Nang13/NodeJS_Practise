@@ -7,7 +7,7 @@ const COLLECTION_NAME = 'Carts'
 var CartSchema = new Schema({
 
     cart_state: {
-        Type: String, required: true,
+        type: String, required: true,
         enum: ['active', 'completed', 'failed', 'pending'],
         default: true
     },
@@ -17,7 +17,7 @@ var CartSchema = new Schema({
 
 }, {
     collection: COLLECTION_NAME,
-    timeseries: {
+    timestamps: {
         createdAt: 'createdOn',
         updatedAt: 'modifiedOn'
     }
