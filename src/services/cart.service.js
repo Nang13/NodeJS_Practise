@@ -26,21 +26,53 @@ class CartService {
 
         return await cart.findOneAndUpdate(query, updateOrInsert, options)
     }
+
     static async updateQuantity({ userId, product }) {
-        const { productId, quantity } = product
+        try {
+            const { productId, quantity } = product;
+            console.log(`in line:`, userId);
+            const query = {
+                cart_userId: userId,
+                'cart_products.productId': productId,
+                cart_state: 'active'
+            };
+            const updateSet = {
+                $set: {
+                    'cart_products.$.quantity': quantity
+                }
+            };
+            const options = { upsert: true, new: true };
+    
+            // Use await to wait for the result
+            const checkCart = await cart.findOne(query);
+            console.log(`check ::`, checkCart); // Log the result
+    
+            const updatedCart = await cart.findOneAndUpdate(query, updateSet, options);
+            console.log(`Updated Cart ::`, updatedCart);
+    
+            return updatedCart;
+        } catch (error) {
+            console.error('Error in updateQuantity:', error);
+            throw error; // Rethrow the error for proper error handling
+        }
+    }
+
+    static async addProductToCart({ userId, product }) {
         const query = {
             cart_userId: userId,
-            'cart_products.productId': productId,
             cart_state: 'active'
-        },
-            updateSet = {
-                $inc: {
-                    'cart_product.$.quantity': quantity
-                }
-            }, options = { upsert: true, new: true }
-
-        return await cart.findOneAndUpdate(query, updateSet, options)
+        }, addSet = {
+            $addToSet: {
+                cart_products: product
+            }
+        };
+        return await cart.findOneAndUpdate(query, addSet, options)
     }
+   
+
+
+
+
     static async AddToCart({ userId, product = {} }) {
         //check cart is exist
         const userCart = await cart.findOne({
@@ -55,6 +87,10 @@ class CartService {
         if (!userCart.cart_products.length) {
             userCart.cart_products = [product]
             return await userCart.save();
+        }
+
+        if (!userCart.cart_products.find(x => x.productId == product.productId)) {
+            return await CartService.addProductToCart({ userId, product })
         }
         //? if have a cart but don't have any items 
         return await CartService.updateQuantity({ userId, product })
