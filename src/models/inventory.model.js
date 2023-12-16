@@ -1,6 +1,7 @@
 'use strict'
 
 const { Schema, model } = require('mongoose'); // Erase if already required
+const { convertToTypes } = require('../utils');
 const DOCUMENT_NAME = 'Inventory';
 const COLLECTION_NAME = 'Inventories'
 // Declare the Schema of the Mongo model
@@ -19,6 +20,28 @@ var InventoriesSchema = new Schema({
     collection: COLLECTION_NAME,
     timestamps: true
 });
+
+const reservationInventory = async ({ productId, quantity, cartId }) => {
+    const query = {
+        inven_productID: convertToTypes(productId),
+        inven_stock: { $gte: quantity }
+    }
+    const updateSet = {
+        $inc: {
+            inven_stock: -quantity
+        },
+        $push: {
+            inven_reservations: {
+                quantity,
+                cartId,
+                createOn: new Date()
+            }
+        }
+    }
+
+    const options = { upsert: true, new: true }
+    return await this.inventory.findOneAndUpdate(query, updateSet, options)
+}
 
 //Export the model
 module.exports = {
