@@ -1,6 +1,6 @@
 'use strict'
 const express = require('express')
-const checkoutController = require('../../controllers/checkout.controller')
+const inventoryController = require('../../controllers/inventory.controller')
 const router = express.Router()
 const { asyncHandler } = require('../../helpers/asyncHandler')
 const { authenticationV2 } = require('../../auth/authUtils')
@@ -10,8 +10,8 @@ const { authenticationV2 } = require('../../auth/authUtils')
 
 
 //router.use(authenticationV2)
-
-router.post('/review', asyncHandler(checkoutController.checkoutReview))
+router.use(authenticationV2);
+router.post('/review', asyncHandler(inventoryController.addStockToInventory))
 
 
 module.exports = router

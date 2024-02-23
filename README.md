@@ -54,3 +54,62 @@ Thường tách biệt và phục vụ những mục đích khác nhau
 + để duyệt mua , hiển thị trên websitee
 ##### Collection Inventories
 + quản lý tồn kho khi  
+### Chương 2 Redissss
+#### section 27,28
+##### Những câu hỏi phổ biến về redis 
+Redis là gì? 
+- Lưu trong bộ nhớ về ghi và đọc rất nhanh 
+- Redis thường dùng cho khóa phân tán , hỗ trợ nhiều điều khác nhau 
+
+#### tại sao là sử dụng redis 
+Memcached vs Redis 
+
+
+#### redis có bao nhiêu kiểu dữ liệu ? và kịch bản sử dụng
+#### redis giải quyết cơ chế hết hạn dữ liệu thế nào ?
+#### String (SDS)
+Kịch bản ứng dụng : đối tượng bộ đệm ,số lượng thông thường ,khóa phân tán , thông tin phiên được chia sẻ ,....
+Type : embstring ,raw , int
+##### Commang using 
+- Set multiple key-value : MSET - MGET -SETNX( check exist)
+- Set/increment/decreasement : set -  incr - incrby - decr - decrby 
+- Finding keys : KEYS '001:*
+- Expire time : expire name time - ttl name (check time)
+- 
+#### Hash 
+##### Using
+- using in create cart 
+##### Commands
+- Get/Set : HGET - HSET
+- Delete : HDLE
+- return field : HLEN
+- show all : HGETALL
+- icre/decrease : HINCRBY /
+
+#### List
+##### Using 
+stack/queue
+hàng đợi tin nhắn ( bảo vệ hàng đợi tin nhắn )
+- Xử lý tin nhắn trùng lập 
+- Độ tin cậy của tin nhắn 
+##### Command 
+-  chèn vào bên trái : lpush
+-  chèn vào bên phải : rpush
+- get all : lrange
+-----
+- context using block ( using message queue)
+a và b mua vé 
+- BLPOP l:ticket 0 
+#### Sets
+##### Commands
+- add to set : SADD
+- delete : SREM
+- check it exist : SISEMEBER 
+- choose radom element : SRANMEMBER
+##### Using 
+- Like features : 
+- Tìm điểm chung : 
+
+#### Zset
+##### Using 
+- 

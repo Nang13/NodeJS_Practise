@@ -121,7 +121,7 @@ class CheckoutService {
         for (let i = 0; i < products.length; i++) {
             const { productId, quantity } = products[i];
             const keyLock = await acquireLock(productId, quantity, cartId)
-            acquireProduct.push(key)
+            acquireProduct.push(keyLock ? true : false)
             if (keyLock) {
                 await releaseLock(keyLock)
             }
@@ -139,12 +139,15 @@ class CheckoutService {
             order_products: shop_order_ids_new
         })
         //? neu insert thanh cong thi remove product trong gio hang cua chung ta 
+        if (newOrder) {
+            //remove product in my cart k
 
+        }
         return newOrder
     }
 
     //? Query Order [Users]
-    static async getOrderByUser() {
+    static async getOrdersByUser() {
 
     }
 
