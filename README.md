@@ -113,3 +113,17 @@ a và b mua vé
 #### Zset
 ##### Using 
 - 
+
+
+
+### Hiểu khái niệm về transaction
+hỗ trợ làm nhiều lệnh cũng lúc 
+các lệnh trong hàng đợi 
+-> tuần tự và độc quyền
+-> có tính mức cô lập 
+#### 
+- Watch (vi pham bien transaction bi loi)
+- Multi
+- Exec 
+- Discard
+multi in transaction of redis 

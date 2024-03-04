@@ -156,6 +156,7 @@ class CheckoutService {
     //?Cancel Order [Users]
     static async cancelOrderByUser() { }
     //?Update Order Status  [Shop / Admin]
+    //Task: tu dong update order qua "delivery"
     static async updateOrderStatusByShop() { }
 }
 
